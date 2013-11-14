@@ -25,7 +25,6 @@ var T = new Twit({
 });
 
 
-
 io.sockets.on('connection', function(socket) {
 	socket.on('submit', function(hashtag) {
 		var stream = T.stream('statuses/filter', {
