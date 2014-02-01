@@ -5,21 +5,17 @@
   <title>Streaming Twitter</title>
 
   <!-- Style -->
-  <link href="/js/libraries/flot/examples/examples.css" rel="stylesheet" type="text/css">
-  <!-- Script -->
-  <script language="javascript" type="text/javascript" src="/js/libraries/flot/jquery.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/libraries/flot/jquery.flot.min.js"></script>
+  <link href="/lib/flot/examples/examples.css" rel="stylesheet" type="text/css">
+  
+  <!-- Node Modules -->
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/libraries/angular/angular.min.js"></script>
-  <script src="/js/indexScript.js"></script>
-  <script>
-    var socket = io.connect('http://localhost');
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
-    });
-  </script>
 
+  <!-- Script -->
+  <script src="/lib/flot/jquery.js"></script>
+  <script src="/lib/flot/jquery.flot.min.js"></script>
+  <script src="/lib/angular/angular.min.js"></script>
+  <script src="/js/bootstrapper.js"></script>
+  <script src="/js/indexScript.js"></script>
 </head>
 
 <body>
@@ -30,7 +26,7 @@
 
   <div id="content">
     <div class="demo-container">
-      <div id="placeholder" class="demo-placeholder"></div>
+      <div id="chart" class="demo-placeholder"></div>
     </div>
 
     <input type="text" id="hashtagInput" ng-model="hashtagInput" placeholder="Enter a hashtag here">

@@ -8,10 +8,13 @@ server.listen(3000);
 
 app.use(express.static('public'));
 
+// routes
 app.get('/', function(req, res) {
 	res.sendfile(__dirname + '/index.html');
 });
-
+app.get('/maps', function(req, res) {
+	res.sendfile(__dirname + '/maps.html');
+});
 app.get('/public', function(req, res) {
 	res.sendfile(__dirname + '/public/');
 });
@@ -24,7 +27,7 @@ var T = new Twit({
 	access_token_secret: 'GTh9P834XaEvYE9FMOjGCtTOTibdqssKV8NnFlbw'
 });
 
-
+// setup websockets
 io.sockets.on('connection', function(socket) {
 	socket.on('submit', function(hashtag) {
 		var stream = T.stream('statuses/filter', {
@@ -33,14 +36,13 @@ io.sockets.on('connection', function(socket) {
 		});
 
 		stream.on('tweet', function(tweet) {
-			// console.log(tweet);
-			socket.emit('tweet', {
-				tweetString: tweet.created_at
-			});
+			if(tweet.coordinates!=null){
+				console.log(tweet.user.location +" >>> "+tweet.geo.coordinates);
+				socket.emit('geolocationTweet', {
+					location: tweet.geo.coordinates
+				});
+			}
 		});
-
 	});
-
-
 
 });
