@@ -4,7 +4,7 @@ var express = require('express'),
 	io = require('socket.io').listen(server),
 	Twit = require("twit");
 
-server.listen(5000);
+server.listen(process.env.PORT || 3000);
 
 app.use(express.static('public'));
 
