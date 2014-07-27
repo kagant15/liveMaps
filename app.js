@@ -41,7 +41,13 @@ io.sockets.on('connection', function(socket) {
 				socket.emit('geolocationTweet', {
 					location: tweet.geo.coordinates
 				});
+				
+				socket.emit('tweet', {
+					tweetString: tweet.created_at
+				});
 			}
+
+
 		});
 	});
 
