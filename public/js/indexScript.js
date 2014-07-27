@@ -10,7 +10,7 @@ var App = {};
     App.initialize = function() {
       var me = App;
           me.$inputBox = $('#hashtagInput');
-          me.socket = io.connect('http://localhost');
+          me.socket = io.connect(window.location.hostname);
 
           // everytime a tweet message is received from the server
           // add it to the list of tweets so that it can be counted later

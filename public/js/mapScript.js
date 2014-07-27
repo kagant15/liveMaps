@@ -1,7 +1,7 @@
 var App = {};
 App.Map = {};
 
-App.Map.socket = io.connect('http://localhost');
+App.Map.socket = io.connect(window.location.hostname);
 App.Map.markers = []; // containes the markers which are droped onto the map
 App.Map.map = null;
 App.Map.myLatlng = new google.maps.LatLng(39.8282, -98.5795);  // center location of map
