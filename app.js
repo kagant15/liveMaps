@@ -10,10 +10,10 @@ app.use(express.static('public'));
 
 // routes
 app.get('/', function(req, res) {
-	res.sendfile(__dirname + '/index.html');
+	res.sendfile(__dirname + '/public/views/index.html');
 });
 app.get('/maps', function(req, res) {
-	res.sendfile(__dirname + '/maps.html');
+	res.sendfile(__dirname + '/public/views/maps.html');
 });
 app.get('/public', function(req, res) {
 	res.sendfile(__dirname + '/public/');
@@ -29,25 +29,27 @@ var T = new Twit({
 
 // setup websockets
 io.sockets.on('connection', function(socket) {
+
+	// when a user submits a hashtag
 	socket.on('submit', function(hashtag) {
 		var stream = T.stream('statuses/filter', {
 			track: hashtag,
 			language: 'en'
 		});
 
+		// when a tweet comes through
 		stream.on('tweet', function(tweet) {
 			if(tweet.coordinates!=null){
-				console.log(tweet.user.location +" >>> "+tweet.geo.coordinates);
+				console.log(tweet.text);
 				socket.emit('geolocationTweet', {
-					location: tweet.geo.coordinates
+					location: tweet.geo.coordinates,
+					text: tweet.text
 				});
 				
 				socket.emit('tweet', {
 					tweetString: tweet.created_at
 				});
 			}
-
-
 		});
 	});
 

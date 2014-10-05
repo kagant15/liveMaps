@@ -1,4 +1,4 @@
-var App = {};
+// var App = {};
 App.Map = {};
 
 App.Map.socket = io.connect(window.location.hostname);
@@ -14,13 +14,13 @@ App.Map.initialize = function() {
     console.log(data);
   });
   me.socket.on('geolocationTweet', function(data) {
-    me.addMarker(new google.maps.LatLng(data.location[0], data.location[1]));
+    me.addMarker(new google.maps.LatLng(data.location[0], data.location[1]), data.text);
   });
   me.socket.emit('submit', '#love');
 
   //position to center the map on
   me.mapOptions = {
-    zoom: 5,
+    zoom: 4,
     center: me.myLatlng
   }
 
@@ -39,14 +39,30 @@ App.Map.initialize = function() {
   me.marker.setMap(me.map);
 }
 
-App.Map.addMarker = function(cordinates) {
+App.Map.addMarker = function(cordinates, text) {
   var me = App.Map;
-  me.markers.push(new google.maps.Marker({
+
+  // create window that will popup when use clicks on marker
+  var infowindow = new google.maps.InfoWindow({
+      content: text
+    });
+
+  // create marker
+  var marker = new google.maps.Marker({
     position: cordinates,
     map: me.map,
+    title : "test",
     draggable: false,
     animation: google.maps.Animation.DROP
-  }));
+  })
+
+  // add listener to maker to display infoWindow
+  google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(me.map,marker);
+  });
+
+  // add marker to map
+  me.markers.push(marker);
   if(me.markers.length >= 50){
       google.maps.Map.prototype.clearMarkers();
   }

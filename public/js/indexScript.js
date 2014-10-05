@@ -24,7 +24,7 @@ var App = {};
             },
             yaxis: {
               min: 0,
-              max: 30
+              max: 50
             },
             xaxis: {
               max: 100,
@@ -45,7 +45,7 @@ var App = {};
                 },
                 yaxis: {
                   min: 0,
-                  max: 30
+                  max: 50
                 },
                 xaxis: {
                   max: 100,

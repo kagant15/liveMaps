@@ -1,0 +1,64 @@
+<html ng-app lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Streaming Twitter</title>
+
+  <!-- Style -->
+  <link href="/lib/flot/examples/examples.css" rel="stylesheet" type="text/css">
+  <!-- Bootstrap -->
+  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+  <style type="text/css">
+      #map-canvas { height: 100%; width: 100%; margin: 15px auto 30px auto;}
+    </style>
+  
+  <!-- Node Modules -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- Script -->
+  <script src="/lib/flot/jquery.js"></script>
+  <script src="/lib/flot/jquery.flot.min.js"></script>
+  <script src="/lib/angular/angular.min.js"></script>
+  <script src="/js/bootstrapper.js"></script>
+  <script src="/js/indexScript.js"></script>
+  <!-- Bootstrap -->
+  <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvagHmbbZPkdmyEq2D3ZJKxZlH0xYn1Dk&sensor=true">
+  </script>
+  
+  <script src="/js/mapScript.js"></script>  
+  
+</head>
+
+<body>
+<div class="container">
+
+    <div class="row">
+      <div id="header">
+        <h2>Real-time Twitter Data for {{hashtagInput}}</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="demo-container">
+        <div id="chart" class="demo-placeholder"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <input type="text" id="hashtagInput" ng-model="hashtagInput" placeholder="Enter a hashtag here">
+    </div>
+
+    <div class="row">
+      <div id="map-canvas"></div>
+    </div>
+  
+</div>
+</body>
+
+</html>
