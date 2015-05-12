@@ -9,11 +9,11 @@
   <!-- Style -->
   <link href="/lib/flot/examples/examples.css" rel="stylesheet" type="text/css">
   <!-- Bootstrap -->
-  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <!-- <link href="/node_modules/" rel="stylesheet" media="screen"> -->
 
   <style type="text/css">
-      #map-canvas { height: 100%; width: 100%; margin: 15px auto 30px auto;}
-    </style>
+      #map-canvas { height: 50%; width: 50%; margin: 15px auto 30px auto;}
+  </style>
   
   <!-- Node Modules -->
   <script src="/socket.io/socket.io.js"></script>
@@ -21,11 +21,10 @@
   <!-- Script -->
   <script src="/lib/flot/jquery.js"></script>
   <script src="/lib/flot/jquery.flot.min.js"></script>
-  <script src="/lib/angular/angular.min.js"></script>
+  <script src="/node_modules"></script>
   <script src="/js/bootstrapper.js"></script>
   <script src="/js/indexScript.js"></script>
-  <!-- Bootstrap -->
-  <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
 
   <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvagHmbbZPkdmyEq2D3ZJKxZlH0xYn1Dk&sensor=true">
@@ -52,10 +51,14 @@
 
     <div class="row">
       <input type="text" id="hashtagInput" ng-model="hashtagInput" placeholder="Enter a hashtag here">
+      <button id="stopButton">stop!</button>
+      <button id="startButton">start</button>
+      <button id="boxButton">box</button>
     </div>
 
     <div class="row">
-      <div id="map-canvas"></div>
+      <div class="span12"><div id="map-canvas"></div></div>
+      <!-- <div class="span6">...</div> -->
     </div>
   
 </div>
