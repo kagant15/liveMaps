@@ -41,4 +41,4 @@ var App = {};
           });
     };
 
-module.export(App);
+
