@@ -15,9 +15,9 @@ app.get('/', function(req, res) {
 // app.get('/public', function(req, res) {
 // 	res.sendfile(__dirname + '/public/');
 // });
-app.get('/node_modules', function(req, res) {
-	res.sendfile(__dirname + '/node_modules/angular/angular.min.js');
-});
+// app.get('/node_modules', function(req, res) {
+// 	res.sendfile(__dirname + '/node_modules/angular/angular.min.js');
+// });
 
 // Twitter credentials
 var T = new Twit({
@@ -28,6 +28,7 @@ var T = new Twit({
 });
 
 var stream;
+var wordCount = {};
 					//Long	Lat         long      lat
 var sanFrancisco = [ '-122.75', '36.8', '-121.75', '37.8' ]
 var rockford = ['-89.14', '42.24', '-88.97', '42.31']
@@ -40,7 +41,6 @@ var US = ['-118.300781', '31.709476', '-65.917969', '46.118942']
 
 // setup websockets
 io.on('connection', function(socket) {
-
 
 	// when a user submits a hashtag
 	socket.on('submit', function(hashtag, bounds) {
@@ -55,23 +55,58 @@ io.on('connection', function(socket) {
 		// when a tweet comes through
 		stream.on('tweet', function(tweet) {
 			if(tweet.coordinates!=null){
+				console.log("tweet coordinates:", tweet.geo.coordinates);
 				// tweet.geo.coordinates[0] --- LAT tweet.geo.coordinates[1] --- Long
 				// -- CHECK TO SEE IF THE CORDINATES LAY WITHIN THE BOUNDING BOX
 				if((tweet.geo.coordinates[0] > bounds[1]) && (tweet.geo.coordinates[0] < bounds[3]) && (tweet.geo.coordinates[1] > bounds[0]) && (tweet.geo.coordinates[1] < bounds[2])){
+					
+					// -- emit geolcation tweet with location and text so it can be displayed on the map
 					socket.emit('geolocationTweet', {
 						location: tweet.geo.coordinates,
 						text: tweet.text
 					});
-					console.log("SPLIT STRING", tweet.text.split(" "))
+
+					// -- keep the count of each word
+					var tweetWords = tweet.text.split(" ")
+
+					for(word in tweetWords){
+					  if(wordCount[tweetWords[word]]){
+					    wordCount[tweetWords[word]]+=1
+					  }
+					  else{
+					    wordCount[tweetWords[word]]=1
+					  }
+					}
+
+					// -- create an array of arrays [[word, count],[word, count]]
+					// -- then sort it by word count size from low to high 
+					var sortable = [];
+					for(var word in wordCount){
+						sortable.push([word, wordCount[word]])
+					}
+					sortable.sort(function(a,b){return a[1]-b[1]})
+
+					// -- Take the ten words with the highest word count
+					var newSortable = []
+					for(var i=sortable.length-1; i>sortable.length-10; i--){
+						if(sortable){
+							newSortable.push({text: sortable[i][0], size: sortable[i][1]}) 
+						}
+						
+					}
+
+					// -- used for word cloud
+					socket.emit('cloud', {
+						cloudWords : newSortable
+					});
 				
 					socket.emit('tweet', {
 						tweetString: tweet.created_at
 					});
 
-					// cache words for map reduce
 				}
 				else{
-
+					console.log("does not match")
 				}
 				
 			}

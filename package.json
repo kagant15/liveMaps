@@ -6,11 +6,14 @@
   "dependencies": {
     "express": "^3.4.4",
     "socket.io": "^0.9.16",
-    "twit": "^1.1.11"
+    "twit": "^1.1.11",
+    "d3.layout.cloud":"1.0.5"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild" : "browserify public/js/main.js -d -o public/bundle.js",
+    "build" : "node app.js"
   },
   "repository": {
     "type": "git",

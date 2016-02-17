@@ -28,6 +28,7 @@ App.Map.initialize = function() {
 
   // -- place markers on map
   me.socket.on('geolocationTweet', function(data) {
+    console.debug("received geolocationTweet")
     me.addMarker(new google.maps.LatLng(data.location[0], data.location[1]), data.text);
   });
 
@@ -91,7 +92,12 @@ App.Map.getBounds = function(){
   var southWest = me.rectangle.getBounds().getSouthWest();
   console.log("TEST", me.rectangle.getBounds().getNorthEast())
 
-  var thing = [southWest.F, southWest.A, northEast.F, northEast.A]
+  console.log("bounds", me.rectangle.getBounds())
+
+  console.log("northEast.lat", northEast.lat());
+  console.log("southWest.lng", southWest.lng())
+
+  var thing = [southWest.lng(), southWest.lat(), northEast.lng(), northEast.lat()]
 
   console.log(thing)
 
