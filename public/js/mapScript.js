@@ -1,4 +1,6 @@
 // var App = {};
+var App = require('./indexScript');
+
 App.Map = {};
 
 App.Map.socket = io.connect(window.location.hostname); // -- Web sockets
@@ -137,3 +139,5 @@ App.Map.addMarker = function(cordinates, text) {
 
 // -- load the map
 google.maps.event.addDomListener(window, 'load', App.Map.initialize);
+
+module.exports = App

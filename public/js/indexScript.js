@@ -31,6 +31,10 @@ var App = {};
             me.socket.emit('close');
           });
 
+          setTimeout(function(){
+            console.log(me.$inputBox)
+          }, 1000)
+
           me.$inputBox.keyup(function(event) {
             if (event.keyCode == 13) { //on Enter
               me.socket.emit('submit', me.$inputBox.val(), me.Map.getBounds()); //send the submit message and pass it the contents of the input box
@@ -41,4 +45,5 @@ var App = {};
           });
     };
 
+module.exports = App;  
 

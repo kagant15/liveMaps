@@ -7,13 +7,17 @@
     "express": "^3.4.4",
     "socket.io": "^0.9.16",
     "twit": "^1.1.11",
-    "d3.layout.cloud":"1.0.5"
+    "d3.layout.cloud":"1.0.5",
+    "jquery": "2.2.0",
+    "d3-cloud": "1.2.1",
+    "google-maps": "3.2.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild" : "browserify public/js/main.js -d -o public/bundle.js",
-    "build" : "node app.js"
+    "build" : "browserify public/js/main.js -d -o public/bundle.js",
+    "prestart" : "npm run build",
+    "start" : "node app.js"
   },
   "repository": {
     "type": "git",

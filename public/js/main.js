@@ -1,11 +1,29 @@
 
 // NOTES: somethings required $ and others reuqire jQuery, I don't know why a simple var jquery = require('jquery') didn't work
-global.$ = require('jquery');
-global.jQuery = require('jquery');
+$ = require('jquery');
+// global.jQuery = require('jquery');
 
 // var GoogleMapsLoader = require('google-maps')
 
+
 var d3 = require('d3')
+
+var testModule = require('./testModule');
+console.log("testModule", testModule.name())
+
+// var indexScript = require('./indexScript');
+var mapScript = require('./mapScript');
+
+// var cloud = require('./d3.layout.cloud');
+// var cloud = require('d3-cloud');
+
+$(function(){
+	mapScript.initialize();
+	// var cloudScript = require('./cloudScript');
+})
+
+
+
 
 // var canvas = require('canvas-browserify')
 // require('d3.layout.cloud')
