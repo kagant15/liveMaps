@@ -1,16 +1,20 @@
+/*
+	THIS FILE ACTS AS THE ENTIRE BACKEND SERVER FOR THIS PROJECT
+*/
+
 var express = require('express'),
 	app = express(),
-	server = require('http').createServer(app), // Express 3 requires that you instantiate a 'http.Server' to attach socket.io to first
-	io = require('socket.io').listen(server),
+	server = require('http').Server(app), // Express 3 requires that you instantiate a 'http.Server' to attach socket.io to first
+	io = require('socket.io')(server),
 	Twit = require("twit");
 
-server.listen(process.env.PORT || 3000);
+server.listen(3000);
 
 app.use(express.static('public'));
 
 // routes
 app.get('/', function(req, res) {
-	res.sendfile(__dirname + '/public/views/index.html');
+	res.sendFile(__dirname + '/public/views/index.html');
 });
 // app.get('/public', function(req, res) {
 // 	res.sendfile(__dirname + '/public/');
@@ -60,6 +64,7 @@ io.on('connection', function(socket) {
 				// -- CHECK TO SEE IF THE CORDINATES LAY WITHIN THE BOUNDING BOX
 				if((tweet.geo.coordinates[0] > bounds[1]) && (tweet.geo.coordinates[0] < bounds[3]) && (tweet.geo.coordinates[1] > bounds[0]) && (tweet.geo.coordinates[1] < bounds[2])){
 					
+					console.log("emit geolocationTweet event ")
 					// -- emit geolcation tweet with location and text so it can be displayed on the map
 					socket.emit('geolocationTweet', {
 						location: tweet.geo.coordinates,
@@ -95,6 +100,7 @@ io.on('connection', function(socket) {
 						
 					}
 
+					console.log("emit cloud event")
 					// -- used for word cloud
 					socket.emit('cloud', {
 						cloudWords : newSortable

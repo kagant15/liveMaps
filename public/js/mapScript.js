@@ -1,143 +1,113 @@
-// var App = {};
-var App = require('./indexScript');
+var GoogleMapsLoader = require('google-maps');
 
-App.Map = {};
+var Map = {
 
-App.Map.socket = io.connect(window.location.hostname); // -- Web sockets
-App.Map.markers = []; // containes the markers which are droped onto the map
-App.Map.map = null; // -- GOOGLE MAP
-App.Map.myLatlng = new google.maps.LatLng(39.8282, -98.5795);  // center location of map
-App.Map.boundingBL = new google.maps.LatLng(38.794968, -77.208481);  // BL bounding boxs
-App.Map.boundingTR = new google.maps.LatLng(39.024718, -76.859665);  // TR bounding boxs
-App.Map.centerMarker = null;
-App.Map.lowerLeftMarker = null;
-App.Map.upperRightMarker = null;
-App.Map.rectangle = null;
+  rectangle : null,
+  map : null,
 
-App.Map.initialize = function() {
-  var me = App.Map;
+  initialize : function(socket){
+    var me = this;
+
+    // -- TODO: Figure out why I need this key b/c it works without it
+    GoogleMapsLoader.KEY = 'AIzaSyCvagHmbbZPkdmyEq2D3ZJKxZlH0xYn1Dk';
   
-  // -- position to center the map on
-  var mapOptions = {
-    zoom: 4,
-    center: me.myLatlng
-  }
-
-  // -- listen for and log tweets
-  me.socket.on('tweet', function(data) {
+    GoogleMapsLoader.load(function(google) {
   
-  });
+      var myLatlng = new google.maps.LatLng(39.8282, -98.5795);  // center location of map
+      var boundingBL = new google.maps.LatLng(38.794968, -77.208481);  // BL bounding boxs
+      var boundingTR = new google.maps.LatLng(39.024718, -76.859665);  // TR bounding boxs
 
-  // -- place markers on map
-  me.socket.on('geolocationTweet', function(data) {
-    console.debug("received geolocationTweet")
-    me.addMarker(new google.maps.LatLng(data.location[0], data.location[1]), data.text);
-  });
+      // -- position to center the map on
+      var mapOptions = {
+        zoom: 4,
+        center: myLatlng
+      }
 
-  // -- place marker at the center of the U.S.
-  me.centerMarker = new google.maps.Marker({
-    map: me.map,
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-    position: me.myLatlng
-  });
+      // -- render the map
+      me.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-  // -- Bottom Left and Upper Right markers to show bounds
-  me.lowerLeftMarker = new google.maps.Marker({
-    map: me.map,
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-    position: me.boundingBL
-  });
+      // -- place markers on map
+      socket.on('geolocationTweet', function(data) {
+        me.addMarker(new google.maps.LatLng(data.location[0], data.location[1]), data.text);
+      });
 
-  me.upperRightMarker = new google.maps.Marker({
-    map: me.map,
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-    position: me.boundingTR
-  });
+      // -- place marker at the center of the U.S.
+      new google.maps.Marker({
+        map: me.map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: myLatlng
+      });
 
-  // -- GOOGLE MAP
-  me.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+      // -- Bottom Left and Upper Right markers to show bounds of dc
+      new google.maps.Marker({
+        map: me.map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: boundingBL
+      });
 
-  // -- Add markers to map
-  me.centerMarker.setMap(me.map);
-  me.lowerLeftMarker.setMap(me.map);
-  me.upperRightMarker.setMap(me.map);
+      // -- Upper right of dc 
+      new google.maps.Marker({
+        map: me.map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: boundingTR
+      });
 
-  // -- create bounds for rectangle
-  var bounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(42.24, -89.14),
-      new google.maps.LatLng(42.31, -88.97)
-  );
+      // -- create bounds for rectangle
+      var bounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(42.24, -89.14),
+          new google.maps.LatLng(42.31, -88.97)
+      );
 
-  // -- rectangle
-  me.rectangle = new google.maps.Rectangle({
-    bounds: bounds,
-    editable: true,
-    draggable: true
-  });
+      // -- rectangle
+      me.rectangle = new google.maps.Rectangle({
+        bounds: bounds,
+        editable: true,
+        draggable: true
+      });
 
-  // google.maps.event.addListener(rectangle, 'bounds_changed', showNewRect);
+      // -- add the rectangle to the map
+      me.rectangle.setMap(me.map);
 
-  me.rectangle.setMap(me.map);
-} // -- End of Initialize method
+    });
+  },
 
-function showNewRect(event) {
-  var ne = me.rectangle.getBounds().getNorthEast();
-  var sw = me.rectangle.getBounds().getSouthWest();
-}
+  // -- add marker to the map
+  addMarker : function(cordinates, text) {
+    var me = this;
 
-App.Map.getBounds = function(){
-  var me = App.Map
-  var northEast = me.rectangle.getBounds().getNorthEast();
-  var southWest = me.rectangle.getBounds().getSouthWest();
-  console.log("TEST", me.rectangle.getBounds().getNorthEast())
-
-  console.log("bounds", me.rectangle.getBounds())
-
-  console.log("northEast.lat", northEast.lat());
-  console.log("southWest.lng", southWest.lng())
-
-  var thing = [southWest.lng(), southWest.lat(), northEast.lng(), northEast.lat()]
-
-  console.log(thing)
-
-  return thing
-}
-
-App.Map.addMarker = function(cordinates, text) {
-  var me = App.Map;
-
-  // create maker pop-up info window
-  var infowindow = new google.maps.InfoWindow({
+    // create maker pop-up info window
+    var infowindow = new google.maps.InfoWindow({
       content: text
     });
 
-  // create marker
-  var marker = new google.maps.Marker({
-    position: cordinates,
-    map: me.map,
-    title : "test",
-    draggable: false,
-    animation: google.maps.Animation.DROP
-  })
+    // create marker
+    var marker = new google.maps.Marker({
+      position: cordinates,
+      map: me.map,
+      title : "test",
+      draggable: false,
+      animation: google.maps.Animation.DROP
+    })
 
-  // add listener to marker to display infoWindow
-  google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(me.map,marker);
-  });
+    // add listener to marker to display infoWindow
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(me.map,marker);
+    });
 
-  // add marker to map
-  me.markers.push(marker);
-  if(me.markers.length >= 50){
-      google.maps.Map.prototype.clearMarkers();
+  }, // -- end of addMarker method
+
+  // -- Gets the bounds of the selected bounding box
+  getBounds : function(){
+    var northEast = this.rectangle.getBounds().getNorthEast();
+    var southWest = this.rectangle.getBounds().getSouthWest();
+
+    return [southWest.lng(), southWest.lat(), northEast.lng(), northEast.lat()]
   }
 
-} // -- end of addMarker method
+};
 
+module.exports = Map
 
-// -- load the map
-google.maps.event.addDomListener(window, 'load', App.Map.initialize);
-
-module.exports = App
