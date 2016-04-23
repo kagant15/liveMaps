@@ -8,8 +8,10 @@
 
   <!-- Style -->
   <link href="/css/bundle.css" rel="stylesheet" type="text/css">
+  <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"> -->
   <style type="text/css">
-      #map-canvas { height: 50%; width: 50%; margin: 15px auto 30px auto;}
+      .tmap { height: 50%; width: 50%; margin: 15px auto 30px auto;}
   </style>
 
   <script src="/bundle.js"></script>
@@ -17,27 +19,9 @@
 </head>
 
 <body>
-<div class="container">
 
-    <div class="row">
-      <input type="text" id="hashtagInput" placeholder="Enter a hashtag here">
-      <button id="stopButton">stop!</button>
-      <button id="startButton">start</button>
-    </div>
-
-    <div class="row">
-      <div class="span12"><div id="map-canvas"></div></div>
-    </div>
-
-    <div class="row">
-      <div class="span12"><div id="cloud"></div></div>
-    </div>
-
-    <div class="row">
-      <div id="example"></div>
-    </div>
-  
-</div>
+  <div id="cloud"></div>
+      
 </body>
 
 </html>

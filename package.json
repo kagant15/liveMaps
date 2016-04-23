@@ -11,6 +11,7 @@
     "google-maps": "3.2.1",
     "jquery": "2.2.0",
     "react": "^0.14.7",
+    "react-bootstrap": "^0.29.2",
     "react-dom": "^0.14.7",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
@@ -22,6 +23,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild" : "cp node_modules/bootstrap/dist/css/bootstrap.min.css public/css/",
     "build": "browserify -t [ babelify --presets [ react ] ] public/js/main.js -d -o public/bundle.js",
     "prestart": "npm run build",
     "start": "node app.js"

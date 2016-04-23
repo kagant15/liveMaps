@@ -2,7 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var d3WordCloud = require('./d3WordCloud');
 
-var CommentBox = React.createClass({
+var WordCloud = React.createClass({
 
 	propTypes: {
 		words : React.PropTypes.array
@@ -19,8 +19,9 @@ var CommentBox = React.createClass({
 	},
 
 	componentWillReceiveProps : function(nextProps){
+		console.debug("nextProps", nextProps);
 		this.setState({
-			words : nextProps
+			words : nextProps.initialWords
 		});
 	},
 
@@ -48,4 +49,4 @@ var CommentBox = React.createClass({
 
 });
 
-module.exports = CommentBox;
+module.exports = WordCloud;
