@@ -2,7 +2,10 @@ var d3 = require('d3');
     d3.layout.cloud = require('d3-cloud');
 
 var d3WordCloud = {
-	render : function(element){
+
+	cloudLayout : null,
+
+	render : function(element, words){
 	
 		d3.select(element).append("svg")
       		.attr("width", 500)
@@ -10,24 +13,8 @@ var d3WordCloud = {
       		.append("g")
         		.attr("transform", "translate(150,150)") 
 
-		    // -- default starting words
-		    var words = [
-		      {text : "One", size : 20},
-		      {text : "Two", size : 30},
-		      {text : "Three", size : 40},
-		      {text : "Four", size : 50},
-		      {text : "Five", size : 60},
-		      {text : "Six", size : 70},
-		      {text : "Seven", size : 20},
-		      {text : "Eight", size : 30},
-		      {text : "Nine", size : 40},
-		      {text : "Ten", size : 50},
-		      {text : "Eleven", size : 60},
-		      {text : "Zero", size : 70}
-		    ]
-
 		    // -- word cloud layout
-		    var cloudLayout = d3.layout.cloud().size([300, 300])
+		    this.cloudLayout = d3.layout.cloud().size([300, 300])
 		        .words(words)
 		        .padding(0)
 		        .rotate(function() { return ~~(Math.random() * 2) * 90; })
@@ -69,7 +56,18 @@ var d3WordCloud = {
 		        .remove();  
 		    
 		    } // -- end of draw    
+	},
+
+	update : function(cloudWords){
+		this.cloudLayout
+        .stop()
+        .words(cloudWords.initialWords.cloudWords.map(function(d){
+          // return {text : d.text, size : 10 + Math.random() * 60} // use this with stock newWords
+          return {text : d.text, size : d.size}  // use with words from twitter service
+        }))
+        .start();
 	}
+
 };
 
 module.exports = d3WordCloud;
