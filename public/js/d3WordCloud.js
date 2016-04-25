@@ -58,12 +58,11 @@ var d3WordCloud = {
 		    } // -- end of draw    
 	},
 
-	// TODO: need to fix this because I canged set state in its partent component
 	update : function(cloudWords){
-		console.debug("cloudWords.initialWords.cloudWords", cloudWords.initialWords.cloudWords);
+		console.debug("cloudWords", cloudWords);
 		this.cloudLayout
         .stop()
-        .words(cloudWords.initialWords.cloudWords.map(function(d){
+        .words(cloudWords.cloudWords.map(function(d){
           // return {text : d.text, size : 10 + Math.random() * 60} // use this with stock newWords
           return {text : d.text, size : d.size}  // use with words from twitter service
         }))

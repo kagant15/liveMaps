@@ -7,13 +7,15 @@ var Tmap = React.createClass({
 
 	propTypes: {
 		rectangle : React.PropTypes.object,
-		markers : React.PropTypes.array
+		markers : React.PropTypes.array,
+		newMarker : React.PropTypes.object
 	},
 
 	getInitialState : function(){
 		return {
 			rectangle : this.props.initialRectangle,
-			markers : this.props.initialMarkers
+			markers : this.props.initialMarkers,
+			newMarker : this.props.initialNewMarker
 		};
 	},
 
@@ -24,14 +26,15 @@ var Tmap = React.createClass({
 	componentWillReceiveProps : function(nextProps){
 		this.setState({
 			rectangle : nextProps.initialRectangle,
-			markers : nextProps.initialMarkers
+			markers : nextProps.initialMarkers,
+			newMarker : nextProps.initialNewMarker,
 		});
 	},
 
 	componentDidMount : function(){
 		// TODO: FIND OUT WHY MAP ISN'T RENDERING!!!
 		var node = ReactDOM.findDOMNode(this);
-		mapScript2.render(node, this.state.rectangle, this.state.markers);
+		mapScript2.render(node, this.state.rectangle, this.state.markers, this.state.newMarker);
 	},
 
 	componentWillUpdate : function(){

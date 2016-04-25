@@ -5,7 +5,7 @@ var Map = {
   rectangle : null,
   map : null,
 
-  render : function(element, rectangle, markers){
+  render : function(element, rectangle, markers, newMarker){
 
     console.debug("element", element);
     console.debug("rectangle", rectangle);
@@ -30,7 +30,6 @@ var Map = {
 
       // -- render the map
       me.map = new google.maps.Map(element, mapOptions);
-      console.log("test!");
 
       markers.forEach(function(marker){
         new google.maps.Marker({
@@ -40,6 +39,16 @@ var Map = {
           position: new google.maps.LatLng(marker.Lat, marker.Lng)
         });
       });
+
+      // -- new marker
+      if(newMarker){
+        new google.maps.Marker({
+            map: me.map,
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            position: new google.maps.LatLng(newMarker.Lat, newMarker.Lng)
+          });
+      }
 
       // -- place marker at the center of the U.S.
       new google.maps.Marker({
@@ -66,6 +75,14 @@ var Map = {
       me.rectangle.setMap(me.map);
 
     });
+  },
+
+  // -- Gets the bounds of the selected bounding box
+  getBounds : function(){
+    var northEast = this.rectangle.getBounds().getNorthEast();
+    var southWest = this.rectangle.getBounds().getSouthWest();
+
+    return [southWest.lng(), southWest.lat(), northEast.lng(), northEast.lat()]
   }
 
 };
