@@ -62,7 +62,7 @@ var d3WordCloud = {
 		console.debug("cloudWords", cloudWords);
 		this.cloudLayout
         .stop()
-        .words(cloudWords.cloudWords.map(function(d){
+        .words(cloudWords.map(function(d){
           // return {text : d.text, size : 10 + Math.random() * 60} // use this with stock newWords
           return {text : d.text, size : d.size}  // use with words from twitter service
         }))

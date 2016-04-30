@@ -2,6 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var d3WordCloud = require('./d3WordCloud');
 
+var CloudStore = require('../stores/CloudStore');
+
 var WordCloud = React.createClass({
 
 	propTypes: {
@@ -10,7 +12,7 @@ var WordCloud = React.createClass({
 
 	getInitialState : function(){
 		return {
-			words : this.props.initialWords
+			words : this.props.words
 		};
 	},
 
@@ -19,9 +21,8 @@ var WordCloud = React.createClass({
 	},
 
 	componentWillReceiveProps : function(nextProps){
-		console.debug("nextProps", nextProps);
 		this.setState({
-			words : nextProps.initialWords
+			words : nextProps.words
 		});
 	},
 
@@ -35,7 +36,6 @@ var WordCloud = React.createClass({
 	},
 
 	componentDidUpdate : function(){
-		console.debug("this.state.words", this.state.words);
 		d3WordCloud.update(this.state.words);
 	},
 

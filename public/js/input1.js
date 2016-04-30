@@ -7,9 +7,11 @@ var input1 = React.createClass({
   getInitialState: function() {
     return {value: '', socket : null};
   },
+
   handleChange: function(event) {
     this.setState({value: event.target.value});
-  },
+  }
+  ,
   _handleKeyPress: function(event){
     if (event.key === 'Enter') {
       //send the submit message and pass it the contents of the input box
@@ -17,6 +19,7 @@ var input1 = React.createClass({
        this.setState({value: ''});
     }
   },
+  
   render: function() {
     return (
       <input

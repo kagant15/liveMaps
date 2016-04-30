@@ -6,18 +6,12 @@ var Map = {
   map : null,
 
   render : function(element, rectangle, markers, newMarker){
-
-    console.debug("element", element);
-    console.debug("rectangle", rectangle);
-    console.debug("markers", markers);
-
     var me = this;
 
     // -- TODO: Figure out why I need this key b/c it works without it
     GoogleMapsLoader.KEY = 'AIzaSyCvagHmbbZPkdmyEq2D3ZJKxZlH0xYn1Dk';
   
     GoogleMapsLoader.load(function(google) {
-      console.debug("google", google);
       var myLatlng = new google.maps.LatLng(39.8282, -98.5795);  // center location of map
       // var boundingBL = new google.maps.LatLng(38.794968, -77.208481);  // BL bounding boxs
       // var boundingTR = new google.maps.LatLng(39.024718, -76.859665);  // TR bounding boxs

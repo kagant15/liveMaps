@@ -32,7 +32,6 @@ var Tmap = React.createClass({
 	},
 
 	componentDidMount : function(){
-		// TODO: FIND OUT WHY MAP ISN'T RENDERING!!!
 		var node = ReactDOM.findDOMNode(this);
 		mapScript2.render(node, this.state.rectangle, this.state.markers, this.state.newMarker);
 	},

@@ -8,8 +8,11 @@
     "d3": "3.5.16",
     "d3-cloud": "1.2.1",
     "express": "^4.10.2",
+    "flux": "2.1.1",
     "google-maps": "3.2.1",
+    "immutable": "^3.8.1",
     "jquery": "2.2.0",
+    "keymirror": "^0.1.1",
     "react": "^0.14.7",
     "react-bootstrap": "^0.29.2",
     "react-dom": "^0.14.7",
@@ -23,8 +26,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild" : "cp node_modules/bootstrap/dist/css/bootstrap.min.css public/css/",
-    "build": "browserify -t [ babelify --presets [ react ] ] public/js/main.js -d -o public/bundle.js",
+    "prebuild": "cp node_modules/bootstrap/dist/css/bootstrap.min.css public/css/",
+    "build": "browserify -t [ babelify --presets [ react ] ] AppReact.js -d -o public/bundle.js",
     "prestart": "npm run build",
     "start": "node app.js"
   },
