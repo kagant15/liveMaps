@@ -16,7 +16,7 @@ var input1 = React.createClass({
   _handleKeyPress: function(event){
     if (event.key === 'Enter') {
       //send the submit message and pass it the contents of the input box
-       this.props.socket.emit('submit', this.state.value, MapStore.getAll().rectangle); 
+       this.props.socket.emit('submit', this.state.value, mapScript.getBounds()); 
        this.setState({value: ''});
     }
   },
