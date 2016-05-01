@@ -59,7 +59,6 @@ var d3WordCloud = {
 	},
 
 	update : function(cloudWords){
-		console.debug("cloudWords", cloudWords);
 		this.cloudLayout
         .stop()
         .words(cloudWords.map(function(d){

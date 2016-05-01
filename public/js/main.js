@@ -16,6 +16,8 @@ var Input1 = require('./input1.js');
 
 var CloudStore = require('../stores/CloudStore');
 var CloudActions = require('../actions/CloudActions');
+var MapStore = require('../stores/MapStore');
+var MapActions = require('../actions/MapActions');
 
 function getAppState(){
 	return {
@@ -25,7 +27,8 @@ function getAppState(){
 						{Lat : 39.024718, Lng : -76.859665}
 					 ],
 		socket : io.connect(),
-		cloudWords : CloudStore.getAll()
+		cloudWords : CloudStore.getAll(),
+		markers : MapStore.getAll(),
 	}
 }
 
@@ -39,7 +42,11 @@ var Main = React.createClass({
 		this.state.socket.on('cloud', function(data){
 			CloudActions.receivedWord(data.cloudWords);
 		});
+		this.state.socket.on('geolocationTweet', function(marker){
+			MapActions.receivedMarker(marker)
+		});
 		CloudStore.addChangeListener(this._onChange);
+		MapStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount: function() {
@@ -57,7 +64,7 @@ var Main = React.createClass({
 				<Row className="show-grid">
 					<Col md={8}><Tmap initialRectangle={this.state.initialRectangle} 
 									  initialMarkers={this.state.initialMarkers} 
-									  initialNewMarker={null}/></Col>
+									  initialNewMarker={this.state.markers}/></Col>
 					<Col md={4}><WordCloud words={this.state.cloudWords}/></Col>
 				</Row>
 			</Grid>

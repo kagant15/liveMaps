@@ -65,9 +65,11 @@ io.on('connection', function(socket) {
 				if((tweet.geo.coordinates[0] > bounds[1]) && (tweet.geo.coordinates[0] < bounds[3]) && (tweet.geo.coordinates[1] > bounds[0]) && (tweet.geo.coordinates[1] < bounds[2])){
 					
 					console.log("emit geolocationTweet event ")
-					// -- emit geolcation tweet with location and text so it can be displayed on the map
 					socket.emit('geolocationTweet', {
-						location: tweet.geo.coordinates,
+						cordinates : { 
+							Lat : tweet.geo.coordinates[0], 
+							Lng : tweet.geo.coordinates[1]
+						},
 						text: tweet.text
 					});
 
@@ -95,6 +97,8 @@ io.on('connection', function(socket) {
 					var newSortable = []
 					for(var i=sortable.length-1; i>sortable.length-10; i--){
 						if(sortable){
+							// console.log("sortable", sortable);
+							// console.log("i", i);
 							newSortable.push({text: sortable[i][0], size: sortable[i][1]}) 
 						}
 						

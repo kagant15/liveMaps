@@ -29,11 +29,12 @@ var Tmap = React.createClass({
 			markers : nextProps.initialMarkers,
 			newMarker : nextProps.initialNewMarker,
 		});
+
 	},
 
 	componentDidMount : function(){
 		var node = ReactDOM.findDOMNode(this);
-		mapScript2.render(node, this.state.rectangle, this.state.markers, this.state.newMarker);
+		mapScript2.render(node, this.state.rectangle, this.state.markers);
 	},
 
 	componentWillUpdate : function(){
@@ -41,7 +42,7 @@ var Tmap = React.createClass({
 	},
 
 	componentDidUpdate : function(){
-		
+		mapScript2.addMarker(this.state.newMarker)
 	},
 
   	render: function() {
