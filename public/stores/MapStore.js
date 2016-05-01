@@ -7,10 +7,17 @@ var assign = require('object-assign');
 var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _data = {}
+var _data = {
+  marker : null,
+  rectangle : [{Lat : 42.24, Lng: -89.14},{Lat : 42.31, Lng : -88.97}],
+}
 
 function update(data) {
   _data = data;
+}
+
+function updateProp(key, value) {
+  _data[key] = value;
 }
 
 var MapStore = assign({}, EventEmitter.prototype, {
@@ -40,7 +47,10 @@ MapStore.dispatchToken = AppDispatcher.register(function(action) {
       update(action.data)
       MapStore.emitChange();
     break;
-
+    case ActionTypes.UPDATE_MAP_PROP:
+      updateProp(action.key, action.value)
+      MapStore.emitChange();
+    break;
     default:
       // do nothing
   }

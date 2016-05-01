@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var mapScript2 = require('./mapScript2');
+var mapScript = require('./mapScript');
 
 
 var Tmap = React.createClass({
@@ -34,7 +34,7 @@ var Tmap = React.createClass({
 
 	componentDidMount : function(){
 		var node = ReactDOM.findDOMNode(this);
-		mapScript2.render(node, this.state.rectangle, this.state.markers);
+		mapScript.render(node, this.state.rectangle, this.state.markers);
 	},
 
 	componentWillUpdate : function(){
@@ -42,7 +42,7 @@ var Tmap = React.createClass({
 	},
 
 	componentDidUpdate : function(){
-		mapScript2.addMarker(this.state.newMarker)
+		mapScript.addMarker(this.state.newMarker)
 	},
 
   	render: function() {

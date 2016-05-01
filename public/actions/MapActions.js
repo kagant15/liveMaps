@@ -7,11 +7,19 @@ var ActionTypes = AppConstants.ActionTypes;
 
 module.exports = {
 
-  receivedMarker: function(marker) {
+  updateProp: function(prop, marker) {
     AppDispatcher.dispatch({
-      type: ActionTypes.RECEIVED_MARKER,
-      data: marker
+      type: ActionTypes.UPDATE_MAP_PROP,
+      key : prop, 
+      value: marker
     });
   }
+
+  // receivedMarker: function(marker) {
+  //   AppDispatcher.dispatch({
+  //     type: ActionTypes.RECEIVED_MARKER,
+  //     data: marker
+  //   });
+  // }
 
 };

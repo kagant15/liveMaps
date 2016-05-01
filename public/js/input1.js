@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var mapScript2 = require('./mapScript2');
+var mapScript = require('./mapScript');
+var MapStore = require('../stores/MapStore');
 
 var input1 = React.createClass({
 
@@ -15,7 +16,7 @@ var input1 = React.createClass({
   _handleKeyPress: function(event){
     if (event.key === 'Enter') {
       //send the submit message and pass it the contents of the input box
-       this.props.socket.emit('submit', this.state.value, mapScript2.getBounds()); 
+       this.props.socket.emit('submit', this.state.value, MapStore.getAll().rectangle); 
        this.setState({value: ''});
     }
   },

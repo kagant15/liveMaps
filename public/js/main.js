@@ -21,14 +21,14 @@ var MapActions = require('../actions/MapActions');
 
 function getAppState(){
 	return {
-		initialRectangle : [42.24, -89.14, 42.31, -88.97],
+		initialRectangle : MapStore.getAll().rectangle,
 		initialMarkers : [
 						{Lat : 38.794968, Lng : -77.208481},
 						{Lat : 39.024718, Lng : -76.859665}
 					 ],
 		socket : io.connect(),
 		cloudWords : CloudStore.getAll(),
-		markers : MapStore.getAll(),
+		markers : MapStore.getAll().marker,
 	}
 }
 
@@ -43,7 +43,7 @@ var Main = React.createClass({
 			CloudActions.receivedWord(data.cloudWords);
 		});
 		this.state.socket.on('geolocationTweet', function(marker){
-			MapActions.receivedMarker(marker)
+			MapActions.updateProp("marker", marker)
 		});
 		CloudStore.addChangeListener(this._onChange);
 		MapStore.addChangeListener(this._onChange);
