@@ -9,7 +9,7 @@ var CHANGE_EVENT = 'change';
 
 var _data = {
   marker : null,
-  rectangle : [{Lat : 42.24, Lng: -89.14},{Lat : 42.31, Lng : -88.97}],
+  rectangle : [{Lat : 41.140701888542516, Lng: -89.16197265625004},{Lat : 42.496586977114355, Lng : -87.32205078125003}],
 }
 
 function update(data) {

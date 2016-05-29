@@ -33,6 +33,7 @@ var T = new Twit({
 
 var stream;
 var wordCount = {};
+var tweets = [];
 					//Long	Lat         long      lat
 var sanFrancisco = [ '-122.75', '36.8', '-121.75', '37.8' ]
 var rockford = ['-89.14', '42.24', '-88.97', '42.31']
@@ -111,7 +112,7 @@ io.on('connection', function(socket) {
 					});
 				
 					socket.emit('tweet', {
-						tweetString: tweet.created_at
+						tweetString: tweet.text
 					});
 
 				}
