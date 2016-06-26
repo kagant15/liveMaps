@@ -6,7 +6,6 @@ var Tmap = require('./Tmap');
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// jQuery = require('jquery');
 
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
@@ -19,6 +18,7 @@ var CloudActions = require('../actions/CloudActions');
 var MapStore = require('../stores/MapStore');
 var MapActions = require('../actions/MapActions');
 
+/* Initial app state */
 function getAppState(){
 	return {
 		initialRectangle : MapStore.getAll().rectangle,
@@ -38,6 +38,7 @@ var Main = React.createClass({
 		return getAppState();
 	},
 
+	/* Setup socket listeners and corrisponding actions for each event */
 	componentDidMount: function() {
 		this.state.socket.on('cloud', function(data){
 			CloudActions.receivedWord(data.cloudWords);
@@ -47,10 +48,6 @@ var Main = React.createClass({
 		});
 		CloudStore.addChangeListener(this._onChange);
 		MapStore.addChangeListener(this._onChange);
-	},
-
-	componentWillUnmount: function() {
-
 	},
 
 	render: function() {
@@ -71,6 +68,7 @@ var Main = React.createClass({
 		);
 	},
 
+	/* Event to set that latest state of the application */
 	_onChange : function(){
 		this.setState(getAppState());
 	},

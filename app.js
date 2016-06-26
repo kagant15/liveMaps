@@ -6,7 +6,8 @@ var express = require('express'),
 	app = express(),
 	server = require('http').Server(app), // Express 3 requires that you instantiate a 'http.Server' to attach socket.io to first
 	io = require('socket.io')(server),
-	Twit = require("twit");
+	Twit = require("twit"),
+	fs = require('fs');
 
 server.listen(3000);
 
@@ -23,13 +24,12 @@ app.get('/', function(req, res) {
 // 	res.sendfile(__dirname + '/node_modules/angular/angular.min.js');
 // });
 
+var configuration = JSON.parse(
+    fs.readFileSync("config.json")
+);
+
 // Twitter credentials
-var T = new Twit({
-	consumer_key: 'PxZSp53IY87VzRYKIxH21Q',
-	consumer_secret: 'tuawwFvYcVsGUa9QjMqIuIaAIJqkG55D3FexkYBeGOo',
-	access_token: '132621831-ZKuJVduMq3f4tLahp4YAHR8ncOBTE0q0y4ahydpb',
-	access_token_secret: 'GTh9P834XaEvYE9FMOjGCtTOTibdqssKV8NnFlbw'
-});
+var T = new Twit(configuration);
 
 var stream;
 var wordCount = {};
